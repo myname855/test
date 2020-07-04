@@ -1,0 +1,164 @@
+cmake-2.8.11.2.tar.gz   libmcrypt-2.5.8.tar.gz  yasm-1.2.0.tar.gz    libpng-1.6.12.tar.gz    
+freetype-2.5.3.tar.gz   libvpx-v1.3.0.tar.bz2   php-5.5.14.tar.gz    jpegsrc.v9a.tar.gz      
+mysql-5.6.19.tar.gz     t1lib-5.1.2.tar.gz      libgd-2.1.0.tar.gz   nginx-1.6.0.tar.gz      tiff-4.0.3.tar.gz
+pasv_enable=YES
+pasv_max_port=5000
+pasv_min_port=4995
+iptables -t filter -P INPUT DROP
+iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -t filter -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --dport 21 -m state --state NEW -j ACCEPT
+iptables -t filter -A INPUT -p tcp --dport 2990:3000 -j ACCEPT
+IPC 
+网络内容提供者
+IDC
+网络数据中心
+ISP
+网络服务提供商
+
+运维工程师测试题（第二阶段）
+共33题，答对23题及格 只有对错没有分数 （时间2小时）          姓名：__何卓翔___________  
+1、写出TCP报文中常用的 6 种状态位码标记。
+   URG   ACK   PSH  RET  SYN  FIN
+2、写出TCP报文与UDP报文的区别，三种以上？
+  （1）TCP首部报文最小20个字节 ，udp只有8个字节
+  （2）TCP是面向可靠传输，udp是面向不可靠传输。
+  （3）tcp报文传输前通信双方需要建立三次握手，而udp不需要。
+  （4）tcp包文包含了6种状态码标记，而udp没有。
+
+3、请写出Linux  bash 下执行一个程序的 五种方式？
+ ./a.sh   /test/a.sh   source /test/a.sh   . /test/a.sh  bash  /test/a.sh      
+4、变量A赋值为“www.c1.class.com”，如何将它的 域名信息截取出来？   
+   echo ${A:4:12} 意思：从第5个开始截取，向后截取12个字符。
+5、请写出这条命令的含义：  a=10  b=$(( $a % 5 ))
+     a被赋值为10，b被赋值为a值除以5的取余值。
+6、输出字符串 string118 包含的字符个数，两种方法？
+echo string118 | awk -F "" '{print NF}'
+awk 'BEGIN{print length("string118")}' 
+
+7、让监控型脚本mon.sh脱离终端在后台运行，关闭终端不受影响，写出两种方式？
+nohup ./mon.sh &
+/etc/rc.d/rc.local 开机运行
+  
+8、Linux下如何取得 50个，每个6位的随机字符串？
+   #!/bin/bash
+for  i  in {1..50}
+do
+A=`echo "123" | md5sum`
+echo ${A:1:6}
+done
+
+9、请写出5个awk的内置变量名？
+    NR NF OFS FS RS  ORS
+10、TCP/IP模型有哪些层次，OSI模型总共有哪些层次？
+TCP/IP：数据链路层、网络层、传输层、应用层
+OSI ：物理层、数据链路层、网络层、传输层、会话层、表示层、应用层
+  
+11、win7主机无法ping 通自己 NAT网络中的一台虚拟机，双方IP地址已设置在同一网段，虚拟机网卡也已启动，你认为的可能性的原因有？（3种）
+  1.物理机的NAT DHCP 服务未开启。
+  2.虚拟机设置了防火墙。
+  3.vmnet8没启动或者没获取正确地址
+13、请写出ABC三类地址各自的 私有段IP范围。
+  A 10.0.0.0-10.255.255.254
+  B 172.16.0.0-172.31.255.254
+  C 192.168.0.1-233.168.255.254
+14、请简述 linux iptables防火墙中的四表五链分别是哪四表，哪五链？
+ 四表：nat  filter  raw  mangle
+ 五链：prerouting  postrouting  forward  output  input  
+
+15、若需要实现本机ping外部主机可以通，外部主机ping自己不能通，（本机INPUT策略DROP），应该如何书写防火墙规则？
+   Iptables -t filter -A  OUTPUT -p icmp  --type-icmp 0 DROP
+16、Linux下计算 1 除以 2 的结果，带2位小数，请写出两种方法
+awk 'BEGIN{printf "%.2f\n",2/3}'
+echo "scale=2; 2/3" | bc
+
+17、用户输入一串字符串，赋值给变量string，要求 $string只能出现数字与英文，不能出现空格与标点符号，且长度必须在 5--10 位，写出其在shell的if判断语句中的 判断  正则表达式（扩展）？   
+If  [[  $string =~ ^[0-9a-zA-Z]{5,10}$  ]]
+18、如何查看一个磁盘分区的文件系统格式，以及它的UUID号？
+blkid +分区目录
+19、Sed -i  '1,3{s/^2/&111/}' test.txt  请写出这个语句的含义？
+   把test.txt文件的第一到第三行的2字换成2111   
+20、如果我们怀疑当前系统可能有木马植入，请问你如何排查？ 三点以上思路 
+1.用户异常（非法连接ssh）
+2.排查可疑进程（陌生、可疑的进程名称，资源占用率高）
+3.系统资源消耗快
+4.命令历史记录
+5.查杀可疑程序
+21、用awk工具统计下列文件中，普通文件的总大小，
+以MB 为单位显示。
+
+ll  |awk  'BENGIN{sum=0} /^[-]/ { sum+=$5 }END{ print "total:" sum/1024/1024 "MB"}'  
+
+ll | awk  ‘BEGIN{sum=0}' $1 ~ /^-/ {sum+=$5}END{print "total:" sum/1024/1024 "MB"}
+22、请写出数据包在iptables防火墙规则链中的三种基本走向。
+      1.eth0------prerouting-----input
+      2.output----------postrouting----------eth0
+      3.eth0----------prerouting-------FORWORD------postrouting-----eth1
+  
+3、将远程登录 输入密码错误次数达到 10 次的IP地址记录到 /root/ip.list，并禁止与本机连接，写出脚本。
+
+#!/bin/bash
+lastb | awk '$2 ~/ssh/{ip[$3]++} END{for (i in ip){if(ip[i]>10){print i}}}' >> /root/ip.list
+for i in `cat /root/ip.list | uniq`
+do
+  iptables -t filter -A INPUT -s $i -p tcp --dport 22  -j DROP
+done
+      
+24、请简述用户打开浏览器，输入www.class.com 到最后看到 首页信息的完整过程。（至少写出五步）
+（1）主机A查询hosts表，有对应记录则返回IP，无则将DNS请求发送至本地DNS
+（2）本地DNS查询缓存，有对应A记录则返回IP，无则将请求发送至根域服务器
+（3）本地DNS通过根域服务器得知需要去找com域服务器
+（4）本地DNS通过com域服务器得知需要去找class.com权威服务器
+（5）class.com权威服务器查询www主机IP对应A记录并发送给本地DNS
+（6）本地DNS将对应A记录缓存至本机，然后再将对应IP发送至主机A
+（7）主机A根据IP与目标服务器建立三次握手
+（8）主机A构建并发送网页请求包
+（9）服务器根据请求包构建回应包发送给主机A
+26、Sed -i ' /IPADDR/ {s/[0-9][0-9][0-9]$/&.5/}'  ifcfg-ens33 这条命的含义是什么？
+在ifcfg-en33中匹配到IPADDR这行，将这行以连续出现3个数字并以数字结尾的改为3个数字加 .5
+27、echo ${url:5:5}  这条命令的含义是什么？
+从url变量值里从第6个开始截取5个字符串。
+28、限制ip 192.168.10.1 在一小时内只能和本机22 端口建立10次连接，如何实现？
+Iptables -t filter  -A  input -p tcp  --dport  22 -s 192.168.10.1 -m recent ---rcheckt  3600 --hitcount 10 -j ACCEPT
+Iptables -t filter -A INPUT -p tcp --dport 22  -s 192.168.10.1  -m recent --name SSHPOOL --set -j ACCEPT
+
+29、Awk -F:  '{shell[$NF]++} END {for(A in shell) {print A,shell[A]}}'  /etc/passwd这条命令的含义是什么？
+
+ 统计用户登录使用的shell以及个数
+
+30、在linux下，如何取得一个16位的随机数字？
+shuf -n1 -i 1000000000000000-9999999999999999
+31、请简述 ARP欺骗的实现过程
+当A主机在广播域进行ARP广播寻找B主机的mac地址时，主机C冒充主机B，将自己伪装的mac的回应A主机，A主机收到回应便错将C主机当成B主机，并把B主机的信息存储在ARP缓存表中，此后主机A发送给B主机的信息都发送到C主机上，主机C就会轻易A主机本应发送给主机B的信息。
+
+32、如何使用 awk 统计 当前系统中，所有处于 ESTABLISHED 状态以及 TIME_WAIT的连接的数量？
+
+netstat -natl | awk 'NR>2 && $NF~/(ESTABLISHED|LISTEN)/{state[$NF]++} END{for(i in state){print i,state[i]}}'
+
+  
+33、有以下文件
+[root@python-110 /test]# cat love.txt
+My love
+An empty street An empty house
+A hole inside my heart I'm all alone
+The rooms are getting smaller I wonder how I wonder why
+I wonder where they are The days we had
+The songs we sang together Oh yeah
+And oh my love
+i'm holding on forever
+Reaching for a love that seems so far So i say a little prayer
+And hope my dreams will take me there
+Where the skies are blue to see you once again, my love
+over seas and coast to coast To find a place i love the most
+Where the fields are green to see you once again, my love
+I try to read I go to work
+I'm laughing with my friends
+But i can't stop to keep myself from thinking,Oh no I wonder how I wonder why
+I wonder where they are The days we had
+The songs we sang together,Oh yeah
+##  统计 该文件中，单词 are 出现的次数
+
+awk   'BEGIN{sum=0}{for(i=1;i<=NF;i++)if($i ~ /^are$/){sum++}}END{print sum}' d.txt
+将匹配到的are行 ，做遍历
+
+交卷方式，将答案写好后，将文件命名为  自己的名字.docx ，发到我的邮箱  nazi337@163.com

@@ -1,0 +1,89 @@
+
+1、请说出 MyISAM引擎和 InnoDB 引擎的区别，三种以上？
+  事务支持，锁颗粒度，外键支持，单表体积
+
+2、请说出事务的ACID 特性分别是什么？
+原子性，一致性，隔离性，持久性
+
+3、请说出Mysql常见的 6种函数？
+count（），sum（），max（），avg（），min（），now（），date（）
+
+4、在AB 复制中，如果出现 IO线程出错，你认为有可能的原因有哪些，至少三种？
+1.主库离线
+2.网络出错
+3.防火墙
+4.授权用户问题
+
+5、innodb_flush_log_at_trx_commit =1  这个选项的含义是什么？
+每次提交事务时，Mysql都会把log buffer的数据写入log file，并且flush刷入磁盘中。
+
+6、SELECT MAX(就业薪资) AS 最高工资,所选课程 FROM myclass.students GROUP BY 所选课程 HAVING 最高工资>15000;  请写出该语句的执行过程？
+from ,group by,  select ，having
+7、如何统计 当前主机下 80端口的 ESTABLISHED和TIME_WAT状态的数量？
+netstat  -antl | grep  “ESTABLISHED”|wc -l
+Netstat  -antl | grep 　＂ＴＩＭＥ＿ＷＡＴ＂｜　ｗｃ　－ｌ
+8、请简述web服务器中 keepalive 的机制及其作用？
+
+9、Nginx中，实现访问 http://www.news.com/search/1.html 自动跳转为 http://www.news.com/search?id=1 如何编写跳转规则？
+location ~ /search {
+    Rewrite  /search/([a-Z0-9]+)\.(html|php)(.*)   http://www.news.com/search/$1
+}
+10、写出http中至少6种状态码及它们的简短含义？
+        301:永久重定向             404：找不到
+        302：临时重定向          502：网关错误
+        304 ：未修改                504：网关连接超时
+        403：禁止访问
+11、Nginx rewrite 模块后的 last break redirect permanent 关键字分别是什么含义？
+
+12、Nginx的upstream 定义中，有如下配置server 192.168.10.61 weight=5 max_fails=3 fail_timeout=10s;   这句配置的含义是？
+
+13、请写出至少8种http协议首部字段？
+
+14、Mysql中如何查看系统中的锁相关信息？
+ show status likes “%rock%”;
+15、Mysql 如何查看一张表的数据体积有多大？  show tables status；
+
+16、备份Mysql的 class.students 表结构及表数据，请给出方法和语句？
+mysqldump -urot class.students >  /root/students.sql
+17、请写出至少10个你所知道的服务及其默认端口号？
+dhcp:67 dns:53 ftp:21,20 postfix:25 mysql:3306 http,nginx:80 tomcat:8080 vpn:1194 https:443 rsync:873 rpcbind:111
+18、Linux下如何取得 50个，每个6位的随机字符串？
+
+19、Sed -i  '1,3{s/^2/&111/}' test.txt  请写出这个语句的含义？
+  
+20、将远程登录 输入密码错误次数达到 10 次的IP地址记录到 /root/ip.list，并禁止与本机连接，写出脚本。
+
+#!/bin/bash
+While  true
+Do
+Sleep 60
+  Cat /root/ip.list |  awk ‘{sum[$0]+}END{for (i in sum)if(sum[i] = 1){print $0}}’
+lastb | awk '$2 ~ /ssh/{ip[$3]++}END{for(a in ip)if(ip[a] > 10 ){print a}} ' >> /root/ip.list
+
+
+21、请简述用户打开浏览器，输入www.class.com 到最后看到首页信息的完整过程。（至少写出五步）
+
+
+22、有文本文件形式如下，如何取出该文件中，大于10的数字？
+ awk  -F ':' '{ for(i=1;i<NF;i++)if($i > 10 ){print $i}}' a.txt
+23、客户端接收到一个 x509 v3格式的数字证书文件，请简述它验证数字证书内容真实性的过程？
+
+
+24、编写一个脚本，监控Mysql服务的健康状态，如果不正常则重启服务，并将重启时间点记入日志 /tmp/mysql.log
+
+
+25、每天备份一次/data/java/src目录一次，保存形式为 yyyy-mm-dd_hh-mm-src.tar.gz，请写出备份语句？
+
+26、前端人员反映mysql数据库更新修改的操作很慢，你的排查思路有哪些？ 至少三种
+
+27、InnoDB 引擎能够实现行级锁的前提条件是什么？
+没有别用户对该进读写操作。
+28、将一个文件的第50行到第80行打印出来，请给出三种方法？
+sed -n '50,80p' a.txt 
+cat a.txt | head -n -20 | tail -n 40
+awk 'NR>=50&&NR<=80{print$0}' a.txt
+29、Nginx服务器要实现如果请求报文 的源地址是 202.96.10 以及 202.55.40 段的，就将其代理转发至上游服务器组 Guangzhou-cdn1 ，应该如何实现？
+if ($remote_addr ~ (202.96.10.[0-9]+| 202.55.40.[0-9]+)){
+Proxy_pass http://Guangzhou-cdn1;
+}
+30、通信双方建立的TCP连接中，FIN_WAIT 状态何时会_2出现？ 
